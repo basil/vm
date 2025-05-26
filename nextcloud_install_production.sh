@@ -41,7 +41,7 @@ SCRIPT_NAME="Nextcloud Install Script"
 SCRIPT_EXPLAINER="This script is installing all requirements that are needed for Nextcloud to run.
 It's the first of two parts that are necessary to finish your customized Nextcloud installation."
 # shellcheck source=lib.sh
-source <(curl -sL https://raw.githubusercontent.com/nextcloud/vm/main/lib.sh)
+source <(curl -sL https://raw.githubusercontent.com/basil/vm/main/lib.sh)
 
 # Check for errors + debug code and abort if something isn't right
 # 1 = ON
@@ -280,16 +280,12 @@ fi
 case "$choice" in
     "2 Disks Auto")
         run_script DISK format-sdb
-        # Change to zfs-mount-generator
-        run_script DISK change-to-zfs-mount-generator
         # Create daily zfs prune script
         run_script DISK create-daily-zfs-prune
 
     ;;
     "2 Disks Manual")
         run_script DISK format-chosen
-        # Change to zfs-mount-generator
-        run_script DISK change-to-zfs-mount-generator
         # Create daily zfs prune script
         run_script DISK create-daily-zfs-prune
     ;;

@@ -173,16 +173,8 @@ then
     fi
     check_command wipefs -a -f "$DISKTYPE"
     sleep 0.5
-    check_command zpool create -f -o ashift=12 "$POOLNAME" "$DISKTYPE"
-    check_command zpool set failmode=continue "$POOLNAME"
+    check_command zpool create -o ashift=12 -o autotrim=on -o compatibility=openzfs-2.2 -O encryption=on -O keylocation=file:///etc/nextcloud-zfs.key -O keyformat=raw -O acltype=posixacl -O xattr=sa -O dnodesize=auto -O compression=zstd -O normalization=formD -O relatime=on -O recordsize=128k "$POOLNAME" "$DISKTYPE"
     check_command zfs set mountpoint="$MOUNT_" "$POOLNAME"
-    check_command zfs set compression=zstd "$POOLNAME"
-    check_command zfs set sync=standard "$POOLNAME"
-    check_command zfs set xattr=sa "$POOLNAME"
-    check_command zfs set primarycache=all "$POOLNAME"
-    check_command zfs set atime=off "$POOLNAME"
-    check_command zfs set recordsize=128k "$POOLNAME"
-    check_command zfs set logbias=latency "$POOLNAME"
     if [ -d /sys/firmware/efi ]
     then
         # dnodesize can't boot on BIOS, only UEFI mode
